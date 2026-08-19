@@ -35,7 +35,7 @@ def klijent(tmp_path):
 def test_pocetna_stranica(klijent):
     odgovor = klijent.get("/")
 
-    assert odgovor.status_code == 200
+    assert odgovor.status_code == 201
 
 
 def test_dodavanje_oglasa(klijent):
