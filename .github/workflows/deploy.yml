@@ -29,6 +29,7 @@ jobs:
         run: python -m pytest
 
       - name: Prikupljanje sistemskih metrika
+        if: always()
         run: |
           python monitoring.py >> $GITHUB_ENV
 
@@ -94,5 +95,56 @@ jobs:
         if: failure()
         run: |
           curl -H "Content-Type: application/json" \
-          -d '{"content":"🔴 Oglasi CI/CD - pipeline je neuspešan!"}' \
+          -d '{
+            "embeds": [{
+              "title": "🔴 Oglasi CI/CD - Deployment neuspešan",
+              "description": "Pipeline nije uspešno završen. Potrebno je proveriti logove.",
+              "color": 15158332,
+              "fields": [
+                {
+                  "name": "👤 Autor",
+                  "value": "${{ github.actor }}",
+                  "inline": true
+                },
+                {
+                  "name": "📌 Commit",
+                  "value": "`${{ github.sha }}`",
+                  "inline": true
+                },
+                {
+                  "name": "📊 Status",
+                  "value": "FAILURE",
+                  "inline": true
+                },
+                {
+                  "name": "🧪 Testovi",
+                  "value": "Pipeline je pao tokom izvršavanja testova",
+                  "inline": true
+                },
+                {
+                  "name": "💻 CPU",
+                  "value": "${{ env.CPU }}%",
+                  "inline": true
+                },
+                {
+                  "name": "🧠 RAM",
+                  "value": "${{ env.RAM }}%",
+                  "inline": true
+                },
+                {
+                  "name": "💾 Disk",
+                  "value": "${{ env.DISK }}%",
+                  "inline": true
+                },
+                {
+                  "name": "🔗 Logovi",
+                  "value": "[Pogledaj GitHub Actions logove](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                  "inline": false
+                }
+              ],
+              "footer": {
+                "text": "Oglasi Monitoring System"
+              }
+            }]
+          }' \
           "${{ secrets.DISCORD_WEBHOOK }}"
