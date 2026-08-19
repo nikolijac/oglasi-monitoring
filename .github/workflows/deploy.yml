@@ -26,12 +26,19 @@ jobs:
         run: python -m py_compile app.py
 
       - name: Pokretanje testova
-        run: python -m pytest
+        run: |
+          python -m pytest -q | tee rezultat_testova.txt
+          echo "TEST_REZULTAT=$(cat rezultat_testova.txt | tail -n 1)" >> $GITHUB_ENV
 
       - name: Prikupljanje sistemskih metrika
         if: always()
         run: |
           python monitoring.py >> $GITHUB_ENV
+
+      - name: Priprema podataka
+        if: always()
+        run: |
+          echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: Discord - uspesan pipeline
         if: success()
@@ -50,7 +57,7 @@ jobs:
                 },
                 {
                   "name": "📌 Commit",
-                  "value": "`${{ github.sha }}`",
+                  "value": "`${{ env.SHORT_SHA }}`",
                   "inline": true
                 },
                 {
@@ -60,7 +67,7 @@ jobs:
                 },
                 {
                   "name": "🧪 Testovi",
-                  "value": "2 testa uspešno prošla",
+                  "value": "${{ env.TEST_REZULTAT }}",
                   "inline": true
                 },
                 {
@@ -108,7 +115,7 @@ jobs:
                 },
                 {
                   "name": "📌 Commit",
-                  "value": "`${{ github.sha }}`",
+                  "value": "`${{ env.SHORT_SHA }}`",
                   "inline": true
                 },
                 {
