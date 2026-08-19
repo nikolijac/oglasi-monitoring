@@ -32,7 +32,33 @@ jobs:
         if: success()
         run: |
           curl -H "Content-Type: application/json" \
-          -d '{"content":"🟢 Oglasi CI/CD - pipeline je uspešno završen!"}' \
+          -d '{
+            "embeds": [{
+              "title": "🟢 Oglasi CI/CD - Deployment uspešan",
+              "description": "Aplikacija je uspešno testirana i pipeline je završen.",
+              "color": 3066993,
+              "fields": [
+                {
+                  "name": "👤 Autor",
+                  "value": "${{ github.actor }}",
+                  "inline": true
+                },
+                {
+                  "name": "📌 Commit",
+                  "value": "`${{ github.sha }}`",
+                  "inline": true
+                },
+                {
+                  "name": "📊 Status",
+                  "value": "SUCCESS",
+                  "inline": true
+                }
+              ],
+              "footer": {
+                "text": "Oglasi Monitoring System"
+              }
+            }]
+          }' \
           "${{ secrets.DISCORD_WEBHOOK }}"
 
       - name: Discord - neuspesan pipeline
