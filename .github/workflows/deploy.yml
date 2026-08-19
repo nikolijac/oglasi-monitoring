@@ -27,3 +27,10 @@ jobs:
 
       - name: Pokretanje testova
         run: python -m pytest
+
+      - name: Discord - uspesan pipeline
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d '{"content":"🟢 Oglasi CI/CD - pipeline je uspešno završen!"}' \
+          "${{ secrets.DISCORD_WEBHOOK }}"
