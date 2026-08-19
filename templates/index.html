@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Oglasi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <h1>Oglasi</h1>
+
+    {% with poruke = get_flashed_messages(with_categories=true) %}
+
+        {% if poruke %}
+
+            {% for kategorija, poruka in poruke %}
+
+                <div class="poruka">
+                    🟢 {{ poruka }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <h2>Dodaj novi oglas</h2>
+
+    <form method="POST">
+
+        <label>Naslov oglasa:</label>
+        <br>
+        <input type="text" name="naslov" required>
+        <br><br>
+
+        <label>Opis:</label>
+        <br>
+        <textarea name="opis" required></textarea>
+        <br><br>
+
+        <label>Cena:</label>
+        <br>
+        <input type="number" name="cena" step="0.01" required>
+        <br><br>
+
+        <label>Kategorija:</label>
+        <br>
+
+        <select name="kategorija">
+            <option value="Elektronika">Elektronika</option>
+            <option value="Odeca">Odeća</option>
+            <option value="Vozila">Vozila</option>
+            <option value="Ostalo">Ostalo</option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">Dodaj oglas</button>
+
+    </form>
+
+
+    <hr>
+
+
+    <h2>Objavljeni oglasi</h2>
+
+    {% if oglasi %}
+
+        {% for oglas in oglasi %}
+
+            <div class="oglas">
+
+                <h3>{{ oglas[1] }}</h3>
+
+                <p>
+                    <strong>Opis:</strong>
+                    {{ oglas[2] }}
+                </p>
+
+                <p>
+                    <strong>Cena:</strong>
+                    {{ oglas[3] }} €
+                </p>
+
+                <p>
+                    <strong>Kategorija:</strong>
+                    {{ oglas[4] }}
+                </p>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Trenutno nema oglasa.</p>
+
+    {% endif %}
+
+</body>
+</html>
