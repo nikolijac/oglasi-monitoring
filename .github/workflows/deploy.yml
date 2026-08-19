@@ -28,6 +28,10 @@ jobs:
       - name: Pokretanje testova
         run: python -m pytest
 
+      - name: Prikupljanje sistemskih metrika
+        run: |
+          python monitoring.py >> $GITHUB_ENV
+
       - name: Discord - uspesan pipeline
         if: success()
         run: |
@@ -56,6 +60,21 @@ jobs:
                 {
                   "name": "🧪 Testovi",
                   "value": "2 testa uspešno prošla",
+                  "inline": true
+                },
+                {
+                  "name": "💻 CPU",
+                  "value": "${{ env.CPU }}%",
+                  "inline": true
+                },
+                {
+                  "name": "🧠 RAM",
+                  "value": "${{ env.RAM }}%",
+                  "inline": true
+                },
+                {
+                  "name": "💾 Disk",
+                  "value": "${{ env.DISK }}%",
                   "inline": true
                 },
                 {
