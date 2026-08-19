@@ -34,3 +34,10 @@ jobs:
           curl -H "Content-Type: application/json" \
           -d '{"content":"🟢 Oglasi CI/CD - pipeline je uspešno završen!"}' \
           "${{ secrets.DISCORD_WEBHOOK }}"
+
+      - name: Discord - neuspesan pipeline
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d '{"content":"🔴 Oglasi CI/CD - pipeline je neuspešan!"}' \
+          "${{ secrets.DISCORD_WEBHOOK }}"
