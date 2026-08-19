@@ -52,6 +52,16 @@ jobs:
                   "name": "📊 Status",
                   "value": "SUCCESS",
                   "inline": true
+                },
+                {
+                  "name": "🧪 Testovi",
+                  "value": "2 testa uspešno prošla",
+                  "inline": true
+                },
+                {
+                  "name": "🔗 Logovi",
+                  "value": "[Pogledaj GitHub Actions logove](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                  "inline": false
                 }
               ],
               "footer": {
