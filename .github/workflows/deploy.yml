@@ -24,3 +24,6 @@ jobs:
 
       - name: Provera aplikacije
         run: python -m py_compile app.py
+
+      - name: Pokretanje testova
+        run: python -m pytest
