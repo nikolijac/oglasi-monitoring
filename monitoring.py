@@ -8,3 +8,13 @@ disk = psutil.disk_usage("/").percent
 print(f"CPU={cpu}")
 print(f"RAM={ram}")
 print(f"DISK={disk}")
+
+
+
+
+
+
+
+
+
+
