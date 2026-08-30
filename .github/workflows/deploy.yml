@@ -46,7 +46,7 @@ jobs:
 
           echo "HTTP_STATUS=$STATUS" >> $GITHUB_ENV
 
-          if [ "$STATUS" != "200" ]; then
+          if [ "$STATUS" != "201" ]; then
             echo "Deployment nije uspešan. HTTP status: $STATUS"
             exit 1
           fi
