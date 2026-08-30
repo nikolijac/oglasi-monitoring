@@ -41,7 +41,7 @@ jobs:
         run: |
           sleep 3
 
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5999)
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000)
 
           echo "HTTP_STATUS=$STATUS" >> $GITHUB_ENV
 
