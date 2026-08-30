@@ -28,7 +28,7 @@ jobs:
       - name: Pokretanje testova
         run: |
           python -m pytest -q | tee rezultat_testova.txt
-          echo "TEST_REZULTAT=$(cat rezultat_testova.txt | tail -n 1)" >> $GITHUB_ENV
+          echo "TEST_REZULTAT=$(tail -n 1 rezultat_testova.txt)" >> $GITHUB_ENV
 
       - name: Docker deployment
         run: |
@@ -40,7 +40,9 @@ jobs:
       - name: Provera deploymenta
         run: |
           sleep 3
+
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000)
+
           echo "HTTP_STATUS=$STATUS" >> $GITHUB_ENV
 
           if [ "$STATUS" != "200" ]; then
@@ -67,7 +69,7 @@ jobs:
           -d '{
             "embeds": [{
               "title": "🟢 Oglasi CI/CD - Deployment uspešan",
-              "description": "Aplikacija je uspešno testirana i pipeline je završen.",
+              "description": "Aplikacija je uspešno testirana i deployovana na Ubuntu VM.",
               "color": 3066993,
               "fields": [
                 {
@@ -88,6 +90,16 @@ jobs:
                 {
                   "name": "🧪 Testovi",
                   "value": "${{ env.TEST_REZULTAT }}",
+                  "inline": true
+                },
+                {
+                  "name": "🐳 Docker",
+                  "value": "oglasi-container",
+                  "inline": true
+                },
+                {
+                  "name": "🌐 HTTP",
+                  "value": "${{ env.HTTP_STATUS }} OK",
                   "inline": true
                 },
                 {
@@ -125,7 +137,7 @@ jobs:
           -d '{
             "embeds": [{
               "title": "🔴 Oglasi CI/CD - Deployment neuspešan",
-              "description": "Pipeline nije uspešno završen. Potrebno je proveriti logove.",
+              "description": "Pipeline nije uspešno završen. Potrebno je proveriti GitHub Actions logove.",
               "color": 15158332,
               "fields": [
                 {
@@ -145,7 +157,12 @@ jobs:
                 },
                 {
                   "name": "🧪 Testovi",
-                  "value": "Pipeline je pao tokom izvršavanja testova",
+                  "value": "${{ env.TEST_REZULTAT }}",
+                  "inline": true
+                },
+                {
+                  "name": "🌐 HTTP",
+                  "value": "${{ env.HTTP_STATUS }}",
                   "inline": true
                 },
                 {
