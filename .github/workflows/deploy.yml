@@ -30,6 +30,26 @@ jobs:
           python -m pytest -q | tee rezultat_testova.txt
           echo "TEST_REZULTAT=$(cat rezultat_testova.txt | tail -n 1)" >> $GITHUB_ENV
 
+      - name: Docker deployment
+        run: |
+          docker stop oglasi-container || true
+          docker rm oglasi-container || true
+          docker build -t oglasi-app .
+          docker run -d --name oglasi-container -p 5000:5000 oglasi-app
+
+      - name: Provera deploymenta
+        run: |
+          sleep 3
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000)
+          echo "HTTP_STATUS=$STATUS" >> $GITHUB_ENV
+
+          if [ "$STATUS" != "200" ]; then
+            echo "Deployment nije uspešan. HTTP status: $STATUS"
+            exit 1
+          fi
+
+          echo "Deployment uspešan. HTTP status: $STATUS"
+
       - name: Prikupljanje sistemskih metrika
         if: always()
         run: |
