@@ -62,4 +62,4 @@ def pocetna():
 
 if __name__ == "__main__":
     kreiraj_bazu()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
