@@ -27,6 +27,7 @@ jobs:
 
       - name: Pokretanje testova
         run: |
+          set -o pipefail
           python -m pytest -q | tee rezultat_testova.txt
           echo "TEST_REZULTAT=$(tail -n 1 rezultat_testova.txt)" >> $GITHUB_ENV
 
@@ -157,27 +158,27 @@ jobs:
                 },
                 {
                   "name": "🧪 Testovi",
-                  "value": "${{ env.TEST_REZULTAT }}",
+                  "value": "${{ env.TEST_REZULTAT || 'Testovi nisu završeni' }}",
                   "inline": true
                 },
                 {
                   "name": "🌐 HTTP",
-                  "value": "${{ env.HTTP_STATUS }}",
+                  "value": "${{ env.HTTP_STATUS || 'Nije dostupan' }}",
                   "inline": true
                 },
                 {
                   "name": "💻 CPU",
-                  "value": "${{ env.CPU }}%",
+                  "value": "${{ env.CPU || 'Nije dostupno' }}",
                   "inline": true
                 },
                 {
                   "name": "🧠 RAM",
-                  "value": "${{ env.RAM }}%",
+                  "value": "${{ env.RAM || 'Nije dostupno' }}",
                   "inline": true
                 },
                 {
                   "name": "💾 Disk",
-                  "value": "${{ env.DISK }}%",
+                  "value": "${{ env.DISK || 'Nije dostupno' }}",
                   "inline": true
                 },
                 {
