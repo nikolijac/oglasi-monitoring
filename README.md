@@ -151,7 +151,7 @@ Webhook URL se čuva kao GitHub Secret i nije direktno upisan u izvorni kod.
 Celokupan proces projekta može se predstaviti kao:
 
 ```text
-Promena koda -> git push -> GitHub Actions -> CI – testiranje i monitoring -> CD – Docker deployment -> Aplikacija na virtuelnoj mašini -> Discord obaveštenje -> Feedback
+Promena koda -> git push -> GitHub Actions -> CI - testiranje i monitoring -> CD - Docker deployment -> Aplikacija na virtuelnoj mašini -> Discord obaveštenje -> Feedback
 ```
 
 Na ovaj način projekat povezuje razvoj, testiranje, monitoring, deployment i povratnu informaciju u jedan automatizovan proces.
