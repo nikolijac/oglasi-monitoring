@@ -64,3 +64,4 @@ if __name__ == "__main__":
     kreiraj_bazu()
     app.run(host="0.0.0.0", port=5000)
     # komentar
+    # jos nesto
